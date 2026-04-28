@@ -1,0 +1,44 @@
+import { getToken, logout } from "./auth.js";
+
+const BASE_URL = "http://localhost:8082";
+
+async function request(endpoint, options = {}) {
+  const token = getToken();
+
+  const headers = {
+    "Content-Type": "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...options.headers,
+  };
+
+  const response = await fetch(`${BASE_URL}/api${endpoint}`, {
+    ...options,
+    headers,
+  });
+
+  if (response.status === 401 || response.status === 403) {
+    logout();
+    return;
+  }
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(error || `Error ${response.status}`);
+  }
+
+  const contentType = response.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    return response.json();
+  }
+
+  return response.text();
+}
+
+export const api = {
+  get: (endpoint) => request(endpoint, { method: "GET" }),
+  post: (endpoint, body) =>
+    request(endpoint, { method: "POST", body: JSON.stringify(body) }),
+  put: (endpoint, body) =>
+    request(endpoint, { method: "PUT", body: JSON.stringify(body) }),
+  delete: (endpoint) => request(endpoint, { method: "DELETE" }),
+};
