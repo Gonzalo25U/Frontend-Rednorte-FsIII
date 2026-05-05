@@ -56,13 +56,13 @@ export function redirectByRole() {
 
   switch (role) {
     case "ADMIN":
-      window.location.href = "/admin";
+      window.location.href = "/admin/";
       break;
-    case "MEDICO":
-      window.location.href = "/medico";
+    case "DOCTOR":
+      window.location.href = "/doctor/";
       break;
     case "PACIENTE":
-      window.location.href = "/paciente";
+      window.location.href = "/paciente/";
       break;
     default:
       window.location.href = "/";

@@ -1,6 +1,6 @@
 import { getToken, logout } from "./auth.js";
 
-const BASE_URL = "http://localhost:8082";
+const BASE_URL = "http://localhost:8085";
 
 async function request(endpoint, options = {}) {
   const token = getToken();
@@ -11,14 +11,20 @@ async function request(endpoint, options = {}) {
     ...options.headers,
   };
 
-  const response = await fetch(`${BASE_URL}/api${endpoint}`, {
+  const response = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,
     headers,
   });
 
-  if (response.status === 401 || response.status === 403) {
+  // Solo desloguear en 401 (token expirado o inválido)
+  if (response.status === 401) {
     logout();
     return;
+  }
+
+  // 403 muestra error sin cerrar sesión
+  if (response.status === 403) {
+    throw new Error("No tienes permisos para realizar esta acción");
   }
 
   if (!response.ok) {

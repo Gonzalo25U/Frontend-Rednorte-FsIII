@@ -1,0 +1,59 @@
+.priority-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.priority-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.priority-btn:hover:not(:disabled) {
+  border-color: var(--red);
+  background: rgba(192,57,43,0.04);
+}
+
+.priority-btn.active {
+  border-color: var(--red);
+  background: rgba(192,57,43,0.08);
+}
+
+.priority-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.priority-letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.priority-btn-a .priority-letter { background: rgba(192,57,43,0.15); color: var(--red); }
+.priority-btn-b .priority-letter { background: rgba(211,84,0,0.15); color: #d35400; }
+.priority-btn-c .priority-letter { background: rgba(241,196,15,0.2); color: #b8860b; }
+.priority-btn-d .priority-letter { background: rgba(39,174,96,0.1); color: #27ae60; }
+.priority-btn-e .priority-letter { background: rgba(41,128,185,0.1); color: #2980b9; }
+.priority-btn-f .priority-letter { background: rgba(0,0,0,0.06); color: var(--ink-soft); }
+
+.priority-desc {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}

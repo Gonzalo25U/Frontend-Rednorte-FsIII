@@ -1,0 +1,153 @@
+.page-section {
+  margin-bottom: 3rem;
+}
+
+/* INFO CARD */
+.info-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.info-avatar {
+  width: 56px;
+  height: 56px;
+  background: var(--red);
+  color: white;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.info-details {
+  flex: 1;
+}
+
+.info-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.3rem;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+}
+
+.info-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.info-row {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.88rem;
+  align-items: center;
+}
+
+.info-key {
+  color: var(--ink-soft);
+  width: 60px;
+  flex-shrink: 0;
+}
+
+.info-val {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.info-state {
+  padding: 2rem;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.info-state.error {
+  color: var(--red);
+  background: rgba(192,57,43,0.04);
+  border-color: rgba(192,57,43,0.2);
+}
+
+/* FORM CARD */
+.form-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 2rem;
+  max-width: 480px;
+}
+
+.appointment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.form-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* APPOINTMENT STATUS */
+.appt-status {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.appt-status.pendiente {
+  background: rgba(241,196,15,0.15);
+  color: #b8860b;
+}
+
+.appt-status.aprobada {
+  background: rgba(39,174,96,0.1);
+  color: #27ae60;
+}
+
+.appt-status.cancelada {
+  background: rgba(192,57,43,0.1);
+  color: var(--red);
+}
+
+/* PRIORITY */
+.priority {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.priority-a { background: rgba(192,57,43,0.15); color: var(--red); }
+.priority-b { background: rgba(211,84,0,0.15); color: #d35400; }
+.priority-c { background: rgba(241,196,15,0.2); color: #b8860b; }
+.priority-d { background: rgba(39,174,96,0.1); color: #27ae60; }
+.priority-e { background: rgba(41,128,185,0.1); color: #2980b9; }
+.priority-f { background: rgba(0,0,0,0.06); color: var(--ink-soft); }
+
+/* TEXTAREA */
+.field-textarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: 'DM Sans', sans-serif;
+}

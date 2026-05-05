@@ -1,4 +1,3 @@
-
 export default function LoginForm({ onSubmit, loading, error }) {
   return (
     <div className="login-wrapper">

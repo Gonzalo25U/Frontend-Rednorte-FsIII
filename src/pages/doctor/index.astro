@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DoctorContainer from "../../containers/doctor/DoctorContainer.jsx";
+import "../../styles/global.css";
+import "../../styles/admin.css";
+import "../../styles/modal.css";
+import "../../styles/paciente.css";
+import "../../styles/doctor.css";
+---
+
+<BaseLayout title="Portal Doctor">
+  <DoctorContainer client:load />
+</BaseLayout>
