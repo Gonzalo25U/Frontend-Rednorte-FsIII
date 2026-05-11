@@ -1,6 +1,9 @@
+// src/containers/doctor/DoctorContainer.jsx
+
 import { useState, useEffect } from "react";
 import { api } from "../../utils/api.js";
 import { logout } from "../../utils/auth.js";
+import Logo from "../../components/shared/Logo.jsx";
 import PatientInfo from "../../components/paciente/PatientInfo.jsx";
 import DoctorAppointmentList from "../../components/doctor/DoctorAppointmentList.jsx";
 import PriorityModal from "../../components/doctor/PriorityModal.jsx";
@@ -86,8 +89,7 @@ export default function DoctorContainer() {
     <div className="admin-layout">
       <header className="admin-header">
         <div className="header-brand">
-          <span className="header-logo">✚</span>
-          <span className="header-title">RedNorte</span>
+          <Logo size="sm" variant="default" />
         </div>
         <div className="header-actions">
           <span className="header-role">Doctor</span>
