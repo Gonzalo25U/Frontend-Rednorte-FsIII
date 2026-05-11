@@ -8,6 +8,7 @@ import PatientInfo from "../../components/paciente/PatientInfo.jsx";
 import DoctorAppointmentList from "../../components/doctor/DoctorAppointmentList.jsx";
 import PriorityModal from "../../components/doctor/PriorityModal.jsx";
 import MedicalRecordModal from "../../components/doctor/MedicalRecordModal.jsx";
+import Footer from "../../components/shared/Footer.jsx";
 
 export default function DoctorContainer() {
   const [doctor, setDoctor] = useState(null);
@@ -147,6 +148,7 @@ export default function DoctorContainer() {
           error={recordError}
         />
       )}
+      <Footer />
     </div>
   );
 }

@@ -28,6 +28,5 @@ export default function LoginContainer() {
       loading={loading}
       error={error}
     />
-    <Footer />
   );
 }

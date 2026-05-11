@@ -6,6 +6,7 @@ import UserTable from "../../components/admin/UserTable.jsx";
 import UserForm from "../../components/admin/UserForm.jsx";
 import ConfirmModal from "../../components/shared/ConfirmModal.jsx";
 import ChangePasswordModal from "../../components/admin/ChangePasswordModal.jsx";
+import Footer from "../../components/shared/Footer.jsx";
 
 export default function UserListContainer() {
   const [users, setUsers] = useState([]);
@@ -166,6 +167,7 @@ export default function UserListContainer() {
           success={passwordSuccess}
         />
       )}
+      <Footer />
     </div>
   );
 }

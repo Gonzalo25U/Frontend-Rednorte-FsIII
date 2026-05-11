@@ -1,3 +1,5 @@
+/* src/styles/paciente.css */
+
 .page-section {
   margin-bottom: 3rem;
 }
@@ -11,6 +13,7 @@
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  max-width: 600px;
 }
 
 .info-avatar {

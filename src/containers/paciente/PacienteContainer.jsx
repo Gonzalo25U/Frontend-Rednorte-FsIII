@@ -8,6 +8,7 @@ import PatientInfo from "../../components/paciente/PatientInfo.jsx";
 import AppointmentForm from "../../components/paciente/AppointmentForm.jsx";
 import AppointmentList from "../../components/paciente/AppointmentList.jsx";
 import CancelAppointmentModal from "../../components/paciente/CancelAppointmentModal.jsx";
+import Footer from "../../components/shared/Footer.jsx";
 
 export default function PacienteContainer() {
   const [patient, setPatient] = useState(null);
@@ -154,6 +155,7 @@ export default function PacienteContainer() {
           error={cancelError}
         />
       )}
+      <Footer />
     </div>
   );
 }
