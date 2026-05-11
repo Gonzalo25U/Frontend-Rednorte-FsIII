@@ -1,12 +1,15 @@
+// src/components/shared/LoginForm.jsx
+
+import Logo from "./Logo.jsx";
+
 export default function LoginForm({ onSubmit, loading, error }) {
   return (
     <div className="login-wrapper">
       <div className="login-card">
         <div className="login-header">
           <div className="logo-mark">
-            <span className="logo-cross">✚</span>
+            <Logo size="md" variant="default" />
           </div>
-          <h1 className="login-title">RedNorte</h1>
           <p className="login-subtitle">Sistema de Gestión Médica</p>
         </div>
 
@@ -20,9 +23,7 @@ export default function LoginForm({ onSubmit, loading, error }) {
           }}
         >
           <div className="field-group">
-            <label className="field-label" htmlFor="rut">
-              RUT
-            </label>
+            <label className="field-label" htmlFor="rut">RUT</label>
             <input
               id="rut"
               name="rut"
@@ -34,9 +35,7 @@ export default function LoginForm({ onSubmit, loading, error }) {
           </div>
 
           <div className="field-group">
-            <label className="field-label" htmlFor="password">
-              Contraseña
-            </label>
+            <label className="field-label" htmlFor="password">Contraseña</label>
             <input
               id="password"
               name="password"
@@ -56,7 +55,7 @@ export default function LoginForm({ onSubmit, loading, error }) {
                 Ingresando...
               </span>
             ) : (
-              "Ingresar"
+              "Ingresar al sistema"
             )}
           </button>
         </form>

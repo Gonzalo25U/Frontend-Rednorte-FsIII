@@ -13,19 +13,11 @@ export default function UserTable({ users, loading, error, onDelete, onChangePas
   }
 
   if (error) {
-    return (
-      <div className="table-state error">
-        <p>{error}</p>
-      </div>
-    );
+    return <div className="table-state error"><p>{error}</p></div>;
   }
 
   if (!users || users.length === 0) {
-    return (
-      <div className="table-state">
-        <p>No hay usuarios registrados.</p>
-      </div>
-    );
+    return <div className="table-state"><p>No hay usuarios registrados.</p></div>;
   }
 
   const roleLabel = {
@@ -79,18 +71,12 @@ export default function UserTable({ users, loading, error, onDelete, onChangePas
               <td className="td-actions">
                 {user.role !== "ADMIN" && (
                   <div className="action-menu">
-                    <button
-                      className="btn-menu"
-                      onClick={() => toggleMenu(user.id)}
-                    >
+                    <button className="btn-menu" onClick={() => toggleMenu(user.id)}>
                       ⋯
                     </button>
                     {openMenu === user.id && (
                       <>
-                        <div
-                          className="menu-backdrop"
-                          onClick={() => setOpenMenu(null)}
-                        />
+                        <div className="menu-backdrop" onClick={() => setOpenMenu(null)} />
                         <div className="menu-dropdown">
                           <button
                             className="menu-item"
