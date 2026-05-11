@@ -1,28 +1,27 @@
+// src/containers/paciente/PacienteContainer.jsx
+
 import { useState, useEffect } from "react";
 import { api } from "../../utils/api.js";
 import { logout } from "../../utils/auth.js";
+import Logo from "../../components/shared/Logo.jsx";
 import PatientInfo from "../../components/paciente/PatientInfo.jsx";
 import AppointmentForm from "../../components/paciente/AppointmentForm.jsx";
 import AppointmentList from "../../components/paciente/AppointmentList.jsx";
 import CancelAppointmentModal from "../../components/paciente/CancelAppointmentModal.jsx";
 
 export default function PacienteContainer() {
-  // Info del paciente
   const [patient, setPatient] = useState(null);
   const [patientLoading, setPatientLoading] = useState(true);
   const [patientError, setPatientError] = useState(null);
 
-  // Citas
   const [appointments, setAppointments] = useState([]);
   const [appointmentsLoading, setAppointmentsLoading] = useState(true);
   const [appointmentsError, setAppointmentsError] = useState(null);
 
-  // Formulario nueva cita
   const [formLoading, setFormLoading] = useState(false);
   const [formError, setFormError] = useState(null);
-  const [formSuccess, setFormSuccess] = useState(false);
+  const [formSuccess, setFormSuccess] = useState(null);
 
-  // Modal cancelar cita
   const [appointmentToCancel, setAppointmentToCancel] = useState(null);
   const [cancelLoading, setCancelLoading] = useState(false);
   const [cancelError, setCancelError] = useState(null);
@@ -58,12 +57,12 @@ export default function PacienteContainer() {
     }
   }
 
-  async function handleCreateAppointment(formData) {
+  async function handleCreateAppointment() {
     setFormLoading(true);
     setFormError(null);
     try {
-      await api.post("/bff/paciente/appointments", formData);
-      setFormSuccess(true);
+      const result = await api.post("/bff/paciente/appointments");
+      setFormSuccess(result);
       fetchAppointments();
     } catch (err) {
       setFormError(err.message || "Error al solicitar cita");
@@ -90,20 +89,16 @@ export default function PacienteContainer() {
     <div className="admin-layout">
       <header className="admin-header">
         <div className="header-brand">
-          <span className="header-logo">✚</span>
-          <span className="header-title">RedNorte</span>
+          <Logo size="sm" variant="default" />
         </div>
         <div className="header-actions">
           <span className="header-role">Paciente</span>
-          <button className="btn-logout" onClick={logout}>
-            Cerrar sesión
-          </button>
+          <button className="btn-logout" onClick={logout}>Cerrar sesión</button>
         </div>
       </header>
 
       <main className="admin-main">
 
-        {/* Sección 1: Mi información */}
         <section className="page-section">
           <div className="section-header">
             <div>
@@ -111,19 +106,14 @@ export default function PacienteContainer() {
               <p className="section-subtitle">Tus datos registrados en el sistema</p>
             </div>
           </div>
-          <PatientInfo
-            patient={patient}
-            loading={patientLoading}
-            error={patientError}
-          />
+          <PatientInfo patient={patient} loading={patientLoading} error={patientError} />
         </section>
 
-        {/* Sección 2: Solicitar cita */}
         <section className="page-section">
           <div className="section-header">
             <div>
               <h2 className="section-title">Solicitar cita</h2>
-              <p className="section-subtitle">Ingresa el RUT del doctor para agendar</p>
+              <p className="section-subtitle">Se asignará el doctor disponible automáticamente</p>
             </div>
           </div>
           <div className="form-card">
@@ -132,21 +122,18 @@ export default function PacienteContainer() {
               loading={formLoading}
               error={formError}
               success={formSuccess}
-              onReset={() => setFormSuccess(false)}
+              onReset={() => setFormSuccess(null)}
             />
           </div>
         </section>
 
-        {/* Sección 3: Mis citas */}
         <section className="page-section">
           <div className="section-header">
             <div>
               <h2 className="section-title">Mis citas</h2>
               <p className="section-subtitle">Historial y estado de tus solicitudes</p>
             </div>
-            <button className="btn-secondary" onClick={fetchAppointments}>
-              Actualizar
-            </button>
+            <button className="btn-secondary" onClick={fetchAppointments}>Actualizar</button>
           </div>
           <AppointmentList
             appointments={appointments}
@@ -162,10 +149,7 @@ export default function PacienteContainer() {
         <CancelAppointmentModal
           appointment={appointmentToCancel}
           onSubmit={handleCancelAppointment}
-          onClose={() => {
-            setAppointmentToCancel(null);
-            setCancelError(null);
-          }}
+          onClose={() => { setAppointmentToCancel(null); setCancelError(null); }}
           loading={cancelLoading}
           error={cancelError}
         />

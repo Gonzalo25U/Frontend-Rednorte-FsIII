@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { api } from "../../utils/api.js";
 import { logout } from "../../utils/auth.js";
+import Logo from "../../components/shared/Logo.jsx";
 import UserTable from "../../components/admin/UserTable.jsx";
 import UserForm from "../../components/admin/UserForm.jsx";
 import ConfirmModal from "../../components/shared/ConfirmModal.jsx";
@@ -100,8 +101,7 @@ export default function UserListContainer() {
     <div className="admin-layout">
       <header className="admin-header">
         <div className="header-brand">
-          <span className="header-logo">✚</span>
-          <span className="header-title">RedNorte</span>
+          <Logo size="sm" variant="default" />
         </div>
         <div className="header-actions">
           <span className="header-role">Administrador</span>
