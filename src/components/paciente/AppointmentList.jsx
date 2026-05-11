@@ -8,16 +8,10 @@ export default function AppointmentList({ appointments, loading, error, onCancel
     );
   }
 
-  if (error) {
-    return <div className="table-state error"><p>{error}</p></div>;
-  }
+  if (error) return <div className="table-state error"><p>{error}</p></div>;
 
   if (!appointments || appointments.length === 0) {
-    return (
-      <div className="table-state">
-        <p>No tienes citas registradas.</p>
-      </div>
-    );
+    return <div className="table-state"><p>No tienes citas registradas.</p></div>;
   }
 
   const statusClass = {
@@ -33,12 +27,9 @@ export default function AppointmentList({ appointments, loading, error, onCancel
   };
 
   const priorityClass = {
-    A: "priority priority-a",
-    B: "priority priority-b",
-    C: "priority priority-c",
-    D: "priority priority-d",
-    E: "priority priority-e",
-    F: "priority priority-f",
+    A: "priority priority-a", B: "priority priority-b",
+    C: "priority priority-c", D: "priority priority-d",
+    E: "priority priority-e", F: "priority priority-f",
   };
 
   return (
@@ -56,11 +47,11 @@ export default function AppointmentList({ appointments, loading, error, onCancel
         <tbody>
           {appointments.map((appt) => (
             <tr key={appt.id}>
-              <td className="td-rut">{appt.doctorRut}</td>
-              <td>{appt.dateTime
-                ? new Date(appt.dateTime).toLocaleString("es-CL")
-                : "—"}
+              <td>
+                <div>{appt.doctorName || appt.doctorRut}</div>
+                <div className="td-rut">{appt.doctorRut}</div>
               </td>
+              <td>{appt.dateTime ? new Date(appt.dateTime).toLocaleString("es-CL") : "—"}</td>
               <td>
                 <span className={priorityClass[appt.priority] || "priority"}>
                   {appt.priority}
@@ -73,10 +64,7 @@ export default function AppointmentList({ appointments, loading, error, onCancel
               </td>
               <td>
                 {appt.status === "PENDIENTE" && (
-                  <button
-                    className="btn-danger-sm"
-                    onClick={() => onCancel(appt)}
-                  >
+                  <button className="btn-danger-sm" onClick={() => onCancel(appt)}>
                     Cancelar
                   </button>
                 )}

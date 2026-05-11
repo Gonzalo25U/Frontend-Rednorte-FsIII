@@ -3,7 +3,9 @@ export default function AppointmentForm({ onSubmit, loading, error, success, onR
     return (
       <div className="form-success">
         <div className="success-icon">✓</div>
-        <p className="success-msg">Cita solicitada exitosamente.</p>
+        <p className="success-msg">
+          Cita solicitada exitosamente. Se te ha asignado al doctor <strong>{success.doctorName}</strong> ({success.doctorRut}).
+        </p>
         <button className="btn-secondary" onClick={onReset}>
           Solicitar otra cita
         </button>
@@ -16,22 +18,12 @@ export default function AppointmentForm({ onSubmit, loading, error, success, onR
       className="appointment-form"
       onSubmit={(e) => {
         e.preventDefault();
-        onSubmit({
-          doctorRut: e.target.doctorRut.value.trim(),
-        });
+        onSubmit();
       }}
     >
-      <div className="field-group">
-        <label className="field-label" htmlFor="doctorRut">RUT del Doctor</label>
-        <input
-          id="doctorRut"
-          name="doctorRut"
-          type="text"
-          placeholder="12345678-9"
-          className="field-input"
-          required
-        />
-      </div>
+      <p className="confirm-message">
+        Al solicitar una cita se te asignará automáticamente el doctor disponible con menos citas pendientes.
+      </p>
 
       {error && <p className="form-error">{error}</p>}
 
