@@ -18,6 +18,16 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+.admin-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-main {
+  flex: 1;
+}
+
 /* HEADER */
 .admin-header {
   background: linear-gradient(135deg, #0f1c3f 0%, #1a3a6e 100%);
