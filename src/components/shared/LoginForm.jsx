@@ -1,8 +1,18 @@
 // src/components/shared/LoginForm.jsx
 
+import { useState } from "react";
 import Logo from "./Logo.jsx";
 
 export default function LoginForm({ onSubmit, loading, error }) {
+  const [rut, setRut] = useState("");
+  const [password, setPassword] = useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!rut.trim() || !password) return;
+    onSubmit(rut.trim(), password);
+  }
+
   return (
     <div className="login-wrapper">
       <div className="login-card">
@@ -13,15 +23,7 @@ export default function LoginForm({ onSubmit, loading, error }) {
           <p className="login-subtitle">Sistema de Gestión Médica</p>
         </div>
 
-        <form
-          className="login-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            const rut = e.target.rut.value.trim();
-            const password = e.target.password.value;
-            onSubmit(rut, password);
-          }}
-        >
+        <form className="login-form" onSubmit={handleSubmit}>
           <div className="field-group">
             <label className="field-label" htmlFor="rut">RUT</label>
             <input
@@ -30,6 +32,8 @@ export default function LoginForm({ onSubmit, loading, error }) {
               type="text"
               placeholder="12345678-9"
               className="field-input"
+              value={rut}
+              onChange={(e) => setRut(e.target.value)}
               required
             />
           </div>
@@ -42,6 +46,8 @@ export default function LoginForm({ onSubmit, loading, error }) {
               type="password"
               placeholder="••••"
               className="field-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
