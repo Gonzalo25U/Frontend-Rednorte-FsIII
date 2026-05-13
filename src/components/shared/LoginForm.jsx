@@ -1,5 +1,3 @@
-// src/components/shared/LoginForm.jsx
-
 import { useState } from "react";
 import Logo from "./Logo.jsx";
 
