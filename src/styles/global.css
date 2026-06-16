@@ -8,17 +8,24 @@
   --blue: #1a56db;
   --blue-dark: #1342b5;
   --blue-light: #e8f0fe;
-  --bg: #f0f4ff;
+  --bg: #d0daea;
   --card: #ffffff;
   --ink: #0f1c3f;
   --ink-soft: #64748b;
   --border: #e2e8f0;
   --radius: 12px;
+  --header-height: 64px;
+  --teal: #0d9488;
+  --teal-light: #ccfbf1;
+  --cream: #faf7f2;
+  --warm-border: #ece4d8;
+  --navy: #0f1c3f;
+  --navy-soft: #16264f;
 }
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--bg);
+  background-color: #ccd9f0;
   min-height: 100vh;
 }
 
@@ -127,6 +134,21 @@ body {
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ADMIN LAYOUT */
+.admin-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-main {
+  flex: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  width: 100%;
 }
 
 /* FOOTER */
