@@ -1,0 +1,10 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LoginContainer from "../../containers/LoginContainer.jsx";
+import "../../styles/global.css";
+import "../../styles/login.css";
+---
+
+<BaseLayout title="Ingreso">
+  <LoginContainer client:load />
+</BaseLayout>
