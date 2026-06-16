@@ -1,3 +1,5 @@
+import { Upload } from "lucide-react";
+
 export default function MedicalRecordModal({ appointment, onSubmit, onClose, loading, error }) {
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -10,10 +12,12 @@ export default function MedicalRecordModal({ appointment, onSubmit, onClose, loa
           className="modal-body"
           onSubmit={(e) => {
             e.preventDefault();
+            const file = e.target.image.files[0] || null;
             onSubmit({
               prescription: e.target.prescription.value.trim(),
               indications: e.target.indications.value.trim(),
               restDays: parseInt(e.target.restDays.value) || 0,
+              file,
             });
           }}
         >
@@ -57,6 +61,31 @@ export default function MedicalRecordModal({ appointment, onSubmit, onClose, loa
               defaultValue={appointment.restDays || 0}
             />
           </div>
+
+          <div className="field-group">
+            <label className="field-label" htmlFor="image">Imagen adjunta (opcional)</label>
+            <label className="file-upload-label" htmlFor="image">
+              <Upload size={16} />
+              <span>Seleccionar archivo</span>
+              <input
+                id="image"
+                name="image"
+                type="file"
+                accept="image/*,.pdf"
+                className="file-upload-input"
+              />
+            </label>
+            <p className="field-hint">Foto de receta, examen u otro documento relacionado</p>
+          </div>
+
+          {appointment.imageUrl && (
+            <div className="current-image">
+              <p className="field-label">Imagen actual</p>
+              <a href={appointment.imageUrl} target="_blank" rel="noopener noreferrer" className="image-link">
+                Ver imagen adjunta
+              </a>
+            </div>
+          )}
 
           {error && <p className="form-error">{error}</p>}
 
