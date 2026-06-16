@@ -1,14 +1,14 @@
-// src/containers/paciente/PacienteContainer.jsx
-
 import { useState, useEffect } from "react";
 import { api } from "../../utils/api.js";
-import { logout } from "../../utils/auth.js";
+import { logout, getToken } from "../../utils/auth.js";
 import Logo from "../../components/shared/Logo.jsx";
 import PatientInfo from "../../components/paciente/PatientInfo.jsx";
 import AppointmentForm from "../../components/paciente/AppointmentForm.jsx";
 import AppointmentList from "../../components/paciente/AppointmentList.jsx";
 import CancelAppointmentModal from "../../components/paciente/CancelAppointmentModal.jsx";
 import Footer from "../../components/shared/Footer.jsx";
+import NotificationBell from "../../components/shared/NotificationBell.jsx";
+import StatsCard from "../../components/shared/StatsCard.jsx";
 
 export default function PacienteContainer() {
   const [patient, setPatient] = useState(null);
@@ -58,11 +58,30 @@ export default function PacienteContainer() {
     }
   }
 
-  async function handleCreateAppointment() {
+  async function handleCreateAppointment({ file }) {
     setFormLoading(true);
     setFormError(null);
     try {
       const result = await api.post("/bff/paciente/appointments");
+
+      if (file && result?.id) {
+        const formData = new FormData();
+        formData.append("file", file);
+        const token = getToken();
+
+        const res = await fetch(
+          `http://localhost:8085/bff/paciente/appointments/${result.id}/upload-image`,
+          {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}` },
+            body: formData,
+          }
+        );
+        if (!res.ok) {
+          console.warn("Cita creada pero no se pudo subir la imagen");
+        }
+      }
+
       setFormSuccess(result);
       fetchAppointments();
     } catch (err) {
@@ -93,6 +112,7 @@ export default function PacienteContainer() {
           <Logo size="sm" variant="default" />
         </div>
         <div className="header-actions">
+          <NotificationBell />
           <span className="header-role">Paciente</span>
           <button className="btn-logout" onClick={logout}>Cerrar sesión</button>
         </div>
@@ -101,18 +121,30 @@ export default function PacienteContainer() {
       <main className="admin-main">
 
         <section className="page-section">
-          <div className="section-header">
+          <div className="top-grid">
             <div>
-              <h1 className="section-title">Mi información</h1>
-              <p className="section-subtitle">Tus datos registrados en el sistema</p>
+              <div className="section-header">
+                <div>
+                  <span className="section-eyebrow">Tu cuenta</span>
+                  <h1 className="section-title">Mi información</h1>
+                  <p className="section-subtitle">Tus datos registrados en el sistema</p>
+                </div>
+              </div>
+              <PatientInfo patient={patient} loading={patientLoading} error={patientError} />
+            </div>
+            <div>
+              <div className="section-header">
+                <div>&nbsp;</div>
+              </div>
+              <StatsCard appointments={appointments} />
             </div>
           </div>
-          <PatientInfo patient={patient} loading={patientLoading} error={patientError} />
         </section>
 
         <section className="page-section">
           <div className="section-header">
             <div>
+              <span className="section-eyebrow">Nueva solicitud</span>
               <h2 className="section-title">Solicitar cita</h2>
               <p className="section-subtitle">Se asignará el doctor disponible automáticamente</p>
             </div>
@@ -131,6 +163,7 @@ export default function PacienteContainer() {
         <section className="page-section">
           <div className="section-header">
             <div>
+              <span className="section-eyebrow">Historial</span>
               <h2 className="section-title">Mis citas</h2>
               <p className="section-subtitle">Historial y estado de tus solicitudes</p>
             </div>
