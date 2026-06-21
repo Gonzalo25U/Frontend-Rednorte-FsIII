@@ -41,6 +41,7 @@ jobs:
       - name: Build y Push frontend
         run: |
           docker build \
+            --build-arg PUBLIC_API_URL=${{ secrets.PUBLIC_API_URL }} \
             -t $ECR_REGISTRY/rednorte/frontend:$IMAGE_TAG .
           docker push $ECR_REGISTRY/rednorte/frontend:$IMAGE_TAG
 
