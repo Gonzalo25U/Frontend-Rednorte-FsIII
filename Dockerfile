@@ -4,8 +4,7 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 ARG PUBLIC_API_URL
-ENV PUBLIC_API_URL=$PUBLIC_API_URL
-RUN npm run build
+RUN PUBLIC_API_URL=$PUBLIC_API_URL npm run build
 
 FROM nginx:alpine AS runner
 COPY --from=builder /app/dist /usr/share/nginx/html
