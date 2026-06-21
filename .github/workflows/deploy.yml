@@ -38,6 +38,9 @@ jobs:
       - name: Set IMAGE_TAG
         run: echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
 
+      - name: Verificar variable
+        run: echo "PUBLIC_API_URL=${{ secrets.PUBLIC_API_URL }}"    
+      
       - name: Build y Push frontend
         run: |
           docker build \
