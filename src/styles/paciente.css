@@ -153,4 +153,315 @@
   resize: vertical;
   min-height: 80px;
   font-family: 'DM Sans', sans-serif;
+<<<<<<< Updated upstream
+=======
+}
+
+/* APPOINTMENT CARDS */
+.appointments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.appointment-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(15,28,63,0.05);
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+}
+
+.appointment-card:hover {
+  box-shadow: 0 6px 20px rgba(15,28,63,0.1);
+  transform: translateY(-1px);
+}
+
+.appointment-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  z-index: 1;
+}
+
+.appointment-card[data-status="PENDIENTE"]::before {
+  background: linear-gradient(180deg, #fbbf24, #f59e0b);
+}
+
+.appointment-card[data-status="APROBADA"]::before {
+  background: linear-gradient(180deg, var(--teal), #0d7a70);
+}
+
+.appointment-card[data-status="CANCELADA"]::before {
+  background: linear-gradient(180deg, #dc2626, #b91c1c);
+}
+
+.appt-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem 1.25rem 1.75rem;
+  gap: 1rem;
+}
+
+.appt-card-info {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.appt-doctor,
+.appt-date {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.appt-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.appt-value {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.appt-card-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* MEDICAL RECORD */
+.appt-medical-record {
+  border-top: 1px solid var(--border);
+  padding: 1.25rem 1.5rem 1.25rem 1.75rem;
+  background: linear-gradient(135deg, #f8faff 0%, var(--blue-light) 100%);
+}
+
+.medical-record-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.medical-record-title::before {
+  content: "🩺";
+  font-size: 1rem;
+}
+
+.medical-record-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.medical-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.medical-field-full {
+  grid-column: 1 / -1;
+}
+
+.medical-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.medical-value {
+  font-size: 0.88rem;
+  color: var(--ink);
+  line-height: 1.5;
+  background: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+/* IMAGE LINK */
+.image-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  color: white;
+  background: linear-gradient(135deg, var(--teal), var(--blue));
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.15s, transform 0.15s;
+  box-shadow: 0 2px 8px rgba(13,148,136,0.25);
+}
+
+.image-link:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: white;
+}
+
+/* APPT PATIENT DOC */
+.appt-patient-doc {
+  border-top: 1px solid var(--border);
+  padding: 0.85rem 1.5rem 0.85rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8faff;
+  gap: 1rem;
+}
+
+/* FILE INPUT LEGACY */
+.file-input {
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+}
+
+.field-hint {
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  margin-top: 0.2rem;
+}
+
+/* CURRENT IMAGE */
+.current-image {
+  background: var(--blue-light);
+  border: 1px solid rgba(26,86,219,0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* HISTORIAL */
+.appointments-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.history-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.history-toggle {
+  align-self: center;
+}
+
+.history-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: 0 2px 8px rgba(15,28,63,0.04);
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.history-table thead {
+  background: linear-gradient(135deg, var(--navy), var(--navy-soft));
+}
+
+.history-table th {
+  text-align: left;
+  padding: 0.85rem 1rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+}
+
+.history-table td {
+  padding: 0.85rem 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--ink);
+}
+
+.history-table tbody tr:hover td {
+  background: #f8faff;
+}
+
+.history-doctor {
+  display: block;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.history-table .td-rut {
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+/* SUCCESS ICON */
+.success-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), var(--blue));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 12px rgba(13,148,136,0.3);
+}
+
+.success-msg {
+  font-size: 0.95rem;
+  color: white;
+  line-height: 1.5;
+}
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .appt-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .appt-card-info {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .medical-record-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-card {
+    max-width: 100%;
+  }
+>>>>>>> Stashed changes
 }
