@@ -13,7 +13,7 @@ describe("LoginForm", () => {
 
     expect(screen.getByLabelText(/rut/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/contraseña/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /ingresar/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /ingresar al sistema/i })).toBeInTheDocument();
   });
 
   it("muestra el mensaje de error cuando hay un error", () => {
@@ -30,7 +30,7 @@ describe("LoginForm", () => {
 
   it("deshabilita el botón cuando loading es true", () => {
     render(<LoginForm onSubmit={vi.fn()} loading={true} error={null} />);
-    expect(screen.getByRole("button")).toBeDisabled();
+    expect(screen.getByRole("button", { name: /ingresando/i })).toBeDisabled();
   });
 
   it("muestra texto de carga cuando loading es true", () => {
@@ -42,13 +42,15 @@ describe("LoginForm", () => {
     const mockSubmit = vi.fn();
     render(<LoginForm onSubmit={mockSubmit} loading={false} error={null} />);
 
-    fireEvent.change(screen.getByLabelText(/rut/i), {
+    const rutInput = screen.getByLabelText(/rut/i);
+    const passwordInput = screen.getByLabelText(/contraseña/i);
+    fireEvent.change(rutInput, {
       target: { value: "11111111-1" },
     });
-    fireEvent.change(screen.getByLabelText(/contraseña/i), {
+    fireEvent.change(passwordInput, {
       target: { value: "T11a" },
     });
-    fireEvent.submit(screen.getByLabelText(/rut/i).closest("form"));
+    fireEvent.submit(rutInput.closest("form"));
 
     expect(mockSubmit).toHaveBeenCalledWith("11111111-1", "T11a");
   });
@@ -57,7 +59,8 @@ describe("LoginForm", () => {
     const mockSubmit = vi.fn();
     render(<LoginForm onSubmit={mockSubmit} loading={false} error={null} />);
 
-    fireEvent.submit(screen.getByLabelText(/rut/i).closest("form"));
+    const rutInput = screen.getByLabelText(/rut/i);
+    fireEvent.submit(rutInput.closest("form"));
 
     expect(mockSubmit).not.toHaveBeenCalled();
   });

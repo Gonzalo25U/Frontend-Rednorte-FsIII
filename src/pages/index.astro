@@ -1,10 +1,151 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import LoginContainer from "../containers/LoginContainer.jsx";
+import Logo from "../components/shared/Logo.jsx";
+import Footer from "../components/shared/Footer.jsx";
 import "../styles/global.css";
-import "../styles/login.css";
+import "../styles/landing.css";
+
+const services = [
+  {
+    icon: "🩺",
+    title: "Medicina General",
+    desc: "Atención integral para ti y tu familia, con seguimiento personalizado.",
+  },
+  {
+    icon: "❤️",
+    title: "Cardiología",
+    desc: "Diagnóstico y control de enfermedades cardiovasculares con tecnología de punta.",
+  },
+  {
+    icon: "🧒",
+    title: "Pediatría",
+    desc: "Cuidado especializado para el crecimiento y desarrollo de los más pequeños.",
+  },
+  {
+    icon: "🦴",
+    title: "Traumatología",
+    desc: "Tratamiento de lesiones músculo-esqueléticas y rehabilitación.",
+  },
+];
+
+const doctors = [
+  {
+    photo: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&h=400&fit=crop&crop=faces",
+    name: "Dra. Camila Reyes",
+    specialty: "Medicina General",
+  },
+  {
+    photo: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop&crop=faces",
+    name: "Dr. Andrés Soto",
+    specialty: "Cardiología",
+  },
+  {
+    photo: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop&crop=faces",
+    name: "Dra. Valentina Muñoz",
+    specialty: "Pediatría",
+  },
+  {
+    photo: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400&h=400&fit=crop&crop=faces",
+    name: "Dr. Joaquín Pérez",
+    specialty: "Traumatología",
+  },
+];
 ---
 
-<BaseLayout title="Ingreso">
-  <LoginContainer client:load />
+<BaseLayout title="Inicio">
+  <div class="landing">
+
+    <!-- NAV -->
+    <header class="landing-nav">
+      <Logo size="sm" variant="default" />
+      
+      <nav class="landing-nav-links">
+        <a href="#mision" class="nav-link">Nosotros</a>
+        <a href="#servicios" class="nav-link">Servicios</a>
+        <a href="#doctores" class="nav-link">Equipo médico</a>
+        <a href="#contacto" class="nav-link">Contacto</a>
+      </nav>
+
+      <a href="/login" class="btn-primary nav-cta">Iniciar sesión</a>
+    </header>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-content">
+        <span class="hero-badge">Red Norte Hospital</span>
+        <h1 class="hero-title">Tu salud, nuestra prioridad</h1>
+        <p class="hero-subtitle">
+          Gestionamos tus citas médicas de forma simple, rápida y segura.
+          Conectamos pacientes y profesionales de la salud en un solo lugar.
+        </p>
+        <a href="/login" class="btn-primary hero-cta">Agendar una cita</a>
+      </div>
+    </section>
+
+    <!-- MISIÓN -->
+    <section class="mission" id="mision">
+      <div class="mission-grid">
+        <div class="mission-card">
+          <h3>Nuestra misión</h3>
+          <p>
+            Brindar atención médica de calidad, accesible y centrada en las
+            personas, utilizando tecnología que simplifica la experiencia
+            tanto para pacientes como para profesionales de la salud.
+          </p>
+        </div>
+        <div class="mission-card">
+          <h3>Nuestra visión</h3>
+          <p>
+            Ser un referente regional en gestión hospitalaria digital,
+            promoviendo un modelo de salud cercano, eficiente y humano para
+            toda la comunidad.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section class="services" id="servicios">
+      <div class="section-heading ">
+        <span class="eyebrow">Especialidades</span>
+        <h2>Nuestros servicios</h2>
+        <p>Especialidades disponibles para la atención de nuestros pacientes</p>
+      </div>
+      <div class="services-grid">
+        {services.map((s) => (
+          <div class="service-card">
+            <span class="service-icon">{s.icon}</span>
+            <h3>{s.title}</h3>
+            <p>{s.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- DOCTORES -->
+    <section class="doctors" id="doctores">
+    <div class="doctors-grid">
+      {doctors.map((d) => (
+        <div class="doctor-card">
+          <div class="doctor-avatar">
+            <img src={d.photo} alt={d.name} />
+          </div>
+          <h3>{d.name}</h3>
+          <p>{d.specialty}</p>
+        </div>
+      ))}
+    </div>
+    </section>
+
+    <!-- CONTACTO / CTA -->
+    <section class="cta" id="contacto">
+      <div class="cta-content">
+        <span class="eyebrow"><b>Profesionales</b></span>
+        <h2>¿Listo para agendar tu próxima cita?</h2>
+        <p>Ingresa a tu cuenta y gestiona tus citas médicas en minutos.</p>
+        <a href="/login" class="btn-primary hero-cta">Ir al portal</a>
+      </div>
+    </section>
+
+    <Footer client:load />
+  </div>
 </BaseLayout>

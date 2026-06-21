@@ -2,6 +2,7 @@ import { useState } from "react";
 
 export default function DoctorAppointmentList({ appointments, loading, error, onSetPriority, onMedicalRecord }) {
   const [openMenu, setOpenMenu] = useState(null);
+  const [showAll, setShowAll] = useState(false);
 
   if (loading) {
     return (
@@ -45,6 +46,14 @@ export default function DoctorAppointmentList({ appointments, loading, error, on
     action(appt);
   }
 
+  // Ordenar por fecha descendente (más recientes primero)
+  const sorted = [...appointments].sort(
+    (a, b) => new Date(b.dateTime) - new Date(a.dateTime)
+  );
+
+  const visible = showAll ? sorted : sorted.slice(0, 7);
+  const restCount = sorted.length - 7;
+
   return (
     <div className="table-wrapper">
       <table className="user-table">
@@ -58,7 +67,7 @@ export default function DoctorAppointmentList({ appointments, loading, error, on
           </tr>
         </thead>
         <tbody>
-          {appointments.map((appt) => (
+          {visible.map((appt) => (
             <tr key={appt.id}>
               <td className="td-rut">{appt.patientRut}</td>
               <td>{appt.dateTime ? new Date(appt.dateTime).toLocaleString("es-CL") : "—"}</td>
@@ -101,6 +110,14 @@ export default function DoctorAppointmentList({ appointments, loading, error, on
           ))}
         </tbody>
       </table>
+
+      {restCount > 0 && (
+        <div className="history-section">
+          <button className="btn-secondary history-toggle" onClick={() => setShowAll(!showAll)}>
+            {showAll ? "Mostrar solo recientes" : `Ver historial completo (${restCount} más)`}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

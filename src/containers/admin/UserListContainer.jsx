@@ -7,6 +7,7 @@ import UserForm from "../../components/admin/UserForm.jsx";
 import ConfirmModal from "../../components/shared/ConfirmModal.jsx";
 import ChangePasswordModal from "../../components/admin/ChangePasswordModal.jsx";
 import Footer from "../../components/shared/Footer.jsx";
+import NotificationBell from "../../components/shared/NotificationBell.jsx";
 
 export default function UserListContainer() {
   const [users, setUsers] = useState([]);
@@ -98,6 +99,11 @@ export default function UserListContainer() {
     setPasswordSuccess(null);
   }
 
+  const totalUsers = users.length;
+  const totalDoctors = users.filter(u => u.role === "DOCTOR").length;
+  const totalPacientes = users.filter(u => u.role === "PACIENTE").length;
+  const totalActivos = users.filter(u => u.active).length;
+
   return (
     <div className="admin-layout">
       <header className="admin-header">
@@ -105,6 +111,7 @@ export default function UserListContainer() {
           <Logo size="sm" variant="default" />
         </div>
         <div className="header-actions">
+          <NotificationBell />
           <span className="header-role">Administrador</span>
           <button className="btn-logout" onClick={logout}>
             Cerrar sesión
@@ -113,28 +120,52 @@ export default function UserListContainer() {
       </header>
 
       <main className="admin-main">
-        <div className="section-header">
-          <div>
-            <h1 className="section-title">Usuarios</h1>
-            <p className="section-subtitle">Gestión de pacientes y médicos del sistema</p>
-          </div>
-          <div className="header-btns">
-            <button className="btn-secondary" onClick={fetchUsers}>
-              Actualizar
-            </button>
-            <button className="btn-primary" onClick={() => setShowForm(true)}>
-              + Nuevo usuario
-            </button>
-          </div>
-        </div>
 
-        <UserTable
-          users={users}
-          loading={loading}
-          error={error}
-          onDelete={(user) => setUserToDelete(user)}
-          onChangePassword={(user) => setUserToChangePassword(user)}
-        />
+        {/* Stats */}
+        <section className="page-section">
+          <div className="section-header">
+            <div>
+              <span className="section-eyebrow">Panel de control</span>
+              <h1 className="section-title">Usuarios</h1>
+              <p className="section-subtitle">Gestión de pacientes y médicos del sistema</p>
+            </div>
+            <div className="header-btns">
+              <button className="btn-secondary" onClick={fetchUsers}>Actualizar</button>
+              <button className="btn-primary" onClick={() => setShowForm(true)}>+ Nuevo usuario</button>
+            </div>
+          </div>
+
+          <div className="admin-stats-grid">
+            <div className="admin-stat-card">
+              <span className="admin-stat-value">{totalUsers}</span>
+              <span className="admin-stat-label">Total usuarios</span>
+            </div>
+            <div className="admin-stat-card">
+              <span className="admin-stat-value" style={{ color: "#2dd4bf" }}>{totalDoctors}</span>
+              <span className="admin-stat-label">Doctores</span>
+            </div>
+            <div className="admin-stat-card">
+              <span className="admin-stat-value" style={{ color: "#fbbf24" }}>{totalPacientes}</span>
+              <span className="admin-stat-label">Pacientes</span>
+            </div>
+            <div className="admin-stat-card">
+              <span className="admin-stat-value" style={{ color: "#4ade80" }}>{totalActivos}</span>
+              <span className="admin-stat-label">Activos</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Tabla */}
+        <section className="page-section">
+          <UserTable
+            users={users}
+            loading={loading}
+            error={error}
+            onDelete={(user) => setUserToDelete(user)}
+            onChangePassword={(user) => setUserToChangePassword(user)}
+          />
+        </section>
+
       </main>
 
       {showForm && (

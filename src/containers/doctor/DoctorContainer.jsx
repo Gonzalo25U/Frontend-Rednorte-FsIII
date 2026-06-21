@@ -1,5 +1,3 @@
-// src/containers/doctor/DoctorContainer.jsx
-
 import { useState, useEffect } from "react";
 import { api } from "../../utils/api.js";
 import { logout } from "../../utils/auth.js";
@@ -8,7 +6,8 @@ import PatientInfo from "../../components/paciente/PatientInfo.jsx";
 import DoctorAppointmentList from "../../components/doctor/DoctorAppointmentList.jsx";
 import PriorityModal from "../../components/doctor/PriorityModal.jsx";
 import MedicalRecordModal from "../../components/doctor/MedicalRecordModal.jsx";
-import Footer from "../../components/shared/Footer.jsx";
+import NotificationBell from "../../components/shared/NotificationBell.jsx";
+import StatsCard from "../../components/shared/StatsCard.jsx";
 
 export default function DoctorContainer() {
   const [doctor, setDoctor] = useState(null);
@@ -72,11 +71,34 @@ export default function DoctorContainer() {
     }
   }
 
-  async function handleSaveMedicalRecord(data) {
+  async function handleSaveMedicalRecord({ prescription, indications, restDays, file }) {
     setRecordLoading(true);
     setRecordError(null);
     try {
-      await api.put(`/bff/doctor/appointments/${appointmentForRecord.id}/medical-record`, data);
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        const token = localStorage.getItem("token");
+        const res = await fetch(
+          `http://localhost:8085/bff/doctor/appointments/${appointmentForRecord.id}/upload-image`,
+          {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}` },
+            body: formData,
+          }
+        );
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || "Error al subir imagen");
+        }
+      }
+
+      await api.put(`/bff/doctor/appointments/${appointmentForRecord.id}/medical-record`, {
+        prescription,
+        indications,
+        restDays,
+      });
+
       setAppointmentForRecord(null);
       fetchAppointments();
     } catch (err) {
@@ -93,6 +115,7 @@ export default function DoctorContainer() {
           <Logo size="sm" variant="default" />
         </div>
         <div className="header-actions">
+          <NotificationBell />
           <span className="header-role">Doctor</span>
           <button className="btn-logout" onClick={logout}>Cerrar sesión</button>
         </div>
@@ -101,18 +124,30 @@ export default function DoctorContainer() {
       <main className="admin-main">
 
         <section className="page-section">
-          <div className="section-header">
+          <div className="top-grid">
             <div>
-              <h1 className="section-title">Mi información</h1>
-              <p className="section-subtitle">Tus datos registrados en el sistema</p>
+              <div className="section-header">
+                <div>
+                  <span className="section-eyebrow">Tu cuenta</span>
+                  <h1 className="section-title">Mi información</h1>
+                  <p className="section-subtitle">Tus datos registrados en el sistema</p>
+                </div>
+              </div>
+              <PatientInfo patient={doctor} loading={doctorLoading} error={doctorError} />
+            </div>
+            <div>
+              <div className="section-header">
+                <div>&nbsp;</div>
+              </div>
+              <StatsCard appointments={appointments} />
             </div>
           </div>
-          <PatientInfo patient={doctor} loading={doctorLoading} error={doctorError} />
         </section>
 
         <section className="page-section">
           <div className="section-header">
             <div>
+              <span className="section-eyebrow">Agenda</span>
               <h2 className="section-title">Citas asignadas</h2>
               <p className="section-subtitle">Gestiona las solicitudes de tus pacientes</p>
             </div>
@@ -148,7 +183,6 @@ export default function DoctorContainer() {
           error={recordError}
         />
       )}
-      <Footer />
     </div>
   );
 }

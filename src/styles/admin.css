@@ -4,28 +4,17 @@
   --blue: #1a56db;
   --blue-dark: #1342b5;
   --blue-light: #e8f0fe;
-  --bg: #f0f4ff;
+  --bg: #ccd9f0;
   --card: #ffffff;
   --ink: #0f1c3f;
   --ink-soft: #64748b;
   --border: #e2e8f0;
   --radius: 12px;
   --header-height: 64px;
-}
-
-body {
-  background: var(--bg);
-  font-family: 'Inter', sans-serif;
-}
-
-.admin-layout {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.admin-main {
-  flex: 1;
+  --teal: #0d9488;
+  --teal-light: #ccfbf1;
+  --navy: #0f1c3f;
+  --navy-soft: #16264f;
 }
 
 /* HEADER */
@@ -40,7 +29,17 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  box-shadow: 0 4px 24px rgba(15, 28, 63, 0.3);
+  box-shadow: 0 4px 24px rgba(15,28,63,0.3);
+}
+
+.admin-header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--teal), var(--blue), transparent);
 }
 
 .header-brand {
@@ -57,26 +56,6 @@ body {
   background: white;
   padding: 4px 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
-.header-logo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
-  border-radius: 8px;
-  color: white;
-  font-size: 0.95rem;
-  box-shadow: 0 2px 8px rgba(26,86,219,0.4);
-}
-
-.header-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.25rem;
-  color: white;
-  letter-spacing: -0.01em;
 }
 
 .header-actions {
@@ -111,11 +90,29 @@ body {
   border-color: rgba(255,255,255,0.3);
 }
 
+/* NOTIFICATION BELL */
+.admin-header .bell-button {
+  background: transparent !important;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  box-shadow: none !important;
+}
+
+.admin-header .bell-button:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+}
+
 /* MAIN */
 .admin-main {
-  max-width: 1100px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 2.5rem 2rem;
+  width: 100%;
+}
+
+.page-section {
+  margin-bottom: 2.5rem;
 }
 
 .section-header {
@@ -123,6 +120,16 @@ body {
   align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 1.5rem;
+}
+
+.section-eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.35rem;
 }
 
 .section-title {
@@ -141,6 +148,73 @@ body {
 .header-btns {
   display: flex;
   gap: 0.75rem;
+}
+
+/* TOP GRID */
+.top-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 1.5rem;
+  align-items: stretch;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .top-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ADMIN STATS */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.admin-stat-card {
+  background: linear-gradient(135deg, var(--navy), var(--navy-soft));
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  box-shadow: 0 4px 16px rgba(15,28,63,0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--teal), var(--blue));
+}
+
+.admin-stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1;
+}
+
+.admin-stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
 }
 
 /* BUTTONS */
@@ -191,14 +265,10 @@ body {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  overflow: visible;
-  box-shadow: 0 4px 24px rgba(15,28,63,0.06);
+  overflow: auto;
+  box-shadow: 0 4px 24px rgba(15,28,63,0.08);
   animation: fadeIn 0.4s ease both;
-}
-
-.table-wrapper table {
-  border-radius: var(--radius);
-  width: 100%;
+  position: relative;
 }
 
 @keyframes fadeIn {
@@ -209,18 +279,37 @@ body {
 .user-table {
   width: 100%;
   border-collapse: collapse;
+  margin-bottom: 0;
+}
+
+.user-table tbody tr:last-child td {
+  padding-bottom: 3rem;
+}
+
+.user-table thead {
+  background: linear-gradient(135deg, var(--navy), var(--navy-soft));
+  position: relative;
+}
+
+.user-table thead::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--teal), var(--blue), transparent);
 }
 
 .user-table th {
-  background: #f8faff;
-  padding: 0.85rem 1.5rem;
+  padding: 1rem 1.5rem;
   text-align: left;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ink-soft);
-  border-bottom: 1.5px solid var(--border);
+  color: rgba(255,255,255,0.6);
+  border-bottom: none;
 }
 
 .user-table td {
@@ -235,12 +324,8 @@ body {
   border-bottom: none;
 }
 
-.user-table tbody tr {
-  position: relative;
-}
-
 .user-table tbody tr:hover td {
-  background: #f8faff;
+  background: #f0f6ff;
 }
 
 .td-rut {
@@ -253,7 +338,7 @@ body {
 /* BADGES */
 .badge {
   display: inline-block;
-  padding: 0.25rem 0.7rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 999px;
   font-size: 0.72rem;
   font-weight: 600;
@@ -267,9 +352,9 @@ body {
 }
 
 .badge-doctor {
-  background: rgba(16,185,129,0.1);
-  color: #059669;
-  border: 1px solid rgba(16,185,129,0.2);
+  background: rgba(13,148,136,0.1);
+  color: var(--teal);
+  border: 1px solid rgba(13,148,136,0.2);
 }
 
 .badge-paciente {
@@ -344,6 +429,7 @@ body {
 .action-menu {
   position: relative;
   display: inline-block;
+  z-index: 102;
 }
 
 .btn-menu {
@@ -398,7 +484,6 @@ body {
 }
 
 .menu-item:hover { background: #f8faff; }
-
 .menu-item-danger { color: #dc2626; }
 .menu-item-danger:hover { background: rgba(220,38,38,0.05); }
 
