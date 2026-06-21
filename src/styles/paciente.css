@@ -311,11 +311,6 @@
   resize: vertical;
   min-height: 80px;
   font-family: 'DM Sans', sans-serif;
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> ad3843e69e5507b0ce299def150cf723c800c753
 }
 
 /* APPOINTMENT CARDS */
@@ -601,11 +596,7 @@
 
 .success-msg {
   font-size: 0.95rem;
-<<<<<<< HEAD
-  color: white;
-=======
   color: var(--ink);
->>>>>>> ad3843e69e5507b0ce299def150cf723c800c753
   line-height: 1.5;
 }
 
@@ -628,8 +619,5 @@
   .form-card {
     max-width: 100%;
   }
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
->>>>>>> ad3843e69e5507b0ce299def150cf723c800c753
+
 }
