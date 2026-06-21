@@ -1,7 +1,7 @@
 import { getToken, logout } from "./auth.js";
 
 const BASE_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:8085";
-
+console.log("BASE_URL:", BASE_URL);
 async function request(endpoint, options = {}) {
   const token = getToken();
 
