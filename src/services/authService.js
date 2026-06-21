@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8085";
+const BASE_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:8085";
 
 export async function login(rut, password) {
   const response = await fetch(`${BASE_URL}/bff/auth/login`, {
