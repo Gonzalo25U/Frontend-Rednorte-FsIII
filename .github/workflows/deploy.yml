@@ -8,12 +8,49 @@ on:
 env:
   AWS_REGION: us-east-1
   EKS_CLUSTER: ClusterRedNorte
-  ECR_REGISTRY: 318533236125.dkr.ecr.us-east-1.amazonaws.com
+  DOCKERHUB_REGISTRY: gonzalo25u
 
 jobs:
+  test-and-quality:
+    name: Tests y Análisis de Calidad
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar tests con Vitest
+        run: npm run test:run -- --coverage
+
+      - name: Análisis SonarCloud
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.organization=gonzalo25u
+            -Dsonar.projectKey=Gonzalo25U_Frontend-Rednorte-FsIII
+            -Dsonar.sources=src
+            -Dsonar.tests=src
+            -Dsonar.test.inclusions=**/*.test.jsx,**/*.test.js
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.qualitygate.wait=true
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build-and-deploy:
     name: Build, Push y Deploy
     runs-on: ubuntu-latest
+    needs: test-and-quality
 
     steps:
       - name: Checkout código
@@ -24,6 +61,12 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Login a Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Configurar credenciales AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -32,21 +75,18 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login a ECR
-        uses: aws-actions/amazon-ecr-login@v2
-
       - name: Set IMAGE_TAG
         run: echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
 
-      - name: Verificar variable
-        run: echo "PUBLIC_API_URL=${{ secrets.PUBLIC_API_URL }}"    
-      
+      - name: Registrar inicio de despliegue
+        run: echo "DEPLOY_START=$(date +%s)" >> $GITHUB_ENV
+
       - name: Build y Push frontend
         run: |
           docker build \
-            --build-arg PUBLIC_API_URL=http://a1647027f720e47d5add7b731859669b-2048035802.us-east-1.elb.amazonaws.com \
-            -t $ECR_REGISTRY/rednorte/frontend:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/rednorte/frontend:$IMAGE_TAG
+            --build-arg PUBLIC_API_URL=${{ secrets.PUBLIC_API_URL }} \
+            -t $DOCKERHUB_REGISTRY/rednorte-frontend:$IMAGE_TAG .
+          docker push $DOCKERHUB_REGISTRY/rednorte-frontend:$IMAGE_TAG
 
       - name: Configurar kubectl para EKS
         run: |
@@ -59,3 +99,33 @@ jobs:
       - name: Verificar despliegue
         run: |
           kubectl rollout status deployment/frontend -n rednorte --timeout=120s
+
+      - name: Registrar métricas en CloudWatch
+        run: |
+          DEPLOY_END=$(date +%s)
+          DEPLOY_TIME=$((DEPLOY_END - DEPLOY_START))
+          aws cloudwatch put-metric-data \
+            --namespace "RedNorte/Deployments" \
+            --metric-name "DeploymentDuration" \
+            --value $DEPLOY_TIME \
+            --unit Seconds \
+            --dimension Name=Service,Value=frontend \
+            --region ${{ env.AWS_REGION }}
+          aws cloudwatch put-metric-data \
+            --namespace "RedNorte/Deployments" \
+            --metric-name "DeploymentSuccess" \
+            --value 1 \
+            --unit Count \
+            --dimension Name=Service,Value=frontend \
+            --region ${{ env.AWS_REGION }}
+
+      - name: Registrar fallo en CloudWatch
+        if: failure()
+        run: |
+          aws cloudwatch put-metric-data \
+            --namespace "RedNorte/Deployments" \
+            --metric-name "DeploymentSuccess" \
+            --value 0 \
+            --unit Count \
+            --dimension Name=Service,Value=frontend \
+            --region ${{ env.AWS_REGION }}
