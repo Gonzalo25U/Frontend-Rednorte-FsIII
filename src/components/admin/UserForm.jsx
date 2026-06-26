@@ -2,7 +2,7 @@ export default function UserForm({ onSubmit, onClose, loading, error, createdUse
 
   if (createdUser) {
     return (
-      <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-overlay" role="button" tabIndex={0} onClick={onClose} onKeyDown={(e) => e.key === 'Enter' && onClose()}>
         <div className="modal" onClick={(e) => e.stopPropagation()}>
           <div className="modal-header">
             <h2 className="modal-title">Usuario creado</h2>
@@ -42,13 +42,12 @@ export default function UserForm({ onSubmit, onClose, loading, error, createdUse
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" role="button" tabIndex={0} onClick={onClose} onKeyDown={(e) => e.key === 'Enter' && onClose()}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2 className="modal-title">Nuevo usuario</h2>
           <button className="modal-close" onClick={onClose}>✕</button>
         </div>
-
         <form
           className="modal-body"
           onSubmit={(e) => {
@@ -62,28 +61,12 @@ export default function UserForm({ onSubmit, onClose, loading, error, createdUse
         >
           <div className="field-group">
             <label className="field-label" htmlFor="name">Nombre completo</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Juan Pérez"
-              className="field-input"
-              required
-            />
+            <input id="name" name="name" type="text" placeholder="Juan Pérez" className="field-input" required />
           </div>
-
           <div className="field-group">
             <label className="field-label" htmlFor="rut">RUT</label>
-            <input
-              id="rut"
-              name="rut"
-              type="text"
-              placeholder="12345678-9"
-              className="field-input"
-              required
-            />
+            <input id="rut" name="rut" type="text" placeholder="12345678-9" className="field-input" required />
           </div>
-
           <div className="field-group">
             <label className="field-label" htmlFor="role">Rol</label>
             <select id="role" name="role" className="field-input" required>
@@ -92,13 +75,9 @@ export default function UserForm({ onSubmit, onClose, loading, error, createdUse
               <option value="PACIENTE">Paciente</option>
             </select>
           </div>
-
           {error && <p className="form-error">{error}</p>}
-
           <div className="modal-footer">
-            <button type="button" className="btn-secondary" onClick={onClose}>
-              Cancelar
-            </button>
+            <button type="button" className="btn-secondary" onClick={onClose}>Cancelar</button>
             <button type="submit" className="btn-primary" disabled={loading}>
               {loading ? "Creando..." : "Crear usuario"}
             </button>

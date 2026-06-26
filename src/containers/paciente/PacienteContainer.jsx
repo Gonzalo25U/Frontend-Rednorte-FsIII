@@ -95,7 +95,7 @@ export default function PacienteContainer() {
     setCancelLoading(true);
     setCancelError(null);
     try {
-      await api.put(`/bff/paciente/appointments/${appointmentToCancel.id}/cancel`, { reason });
+      await api.put(`/bff/paciente/appointments/${appointmentToCancel?.id}/cancel`, { reason });
       setAppointmentToCancel(null);
       fetchAppointments();
     } catch (err) {

@@ -2,7 +2,7 @@ export default function ChangePasswordModal({ user, onSubmit, onClose, loading, 
 
   if (success) {
     return (
-      <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-overlay" role="button" tabIndex={0} onClick={onClose} onKeyDown={(e) => e.key === 'Enter' && onClose()}>
         <div className="modal modal-sm" onClick={(e) => e.stopPropagation()}>
           <div className="modal-header">
             <h2 className="modal-title">Contraseña actualizada</h2>
@@ -28,7 +28,7 @@ export default function ChangePasswordModal({ user, onSubmit, onClose, loading, 
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" role="button" tabIndex={0} onClick={onClose} onKeyDown={(e) => e.key === 'Enter' && onClose()}>
       <div className="modal modal-sm" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2 className="modal-title">Cambiar contraseña</h2>
@@ -44,7 +44,6 @@ export default function ChangePasswordModal({ user, onSubmit, onClose, loading, 
           <p className="confirm-message">
             Ingresa la nueva contraseña para <strong>{user.name}</strong>.
           </p>
-
           <div className="field-group">
             <label className="field-label" htmlFor="password">Nueva contraseña</label>
             <input
@@ -57,13 +56,9 @@ export default function ChangePasswordModal({ user, onSubmit, onClose, loading, 
               required
             />
           </div>
-
           {error && <p className="form-error">{error}</p>}
-
           <div className="modal-footer">
-            <button type="button" className="btn-secondary" onClick={onClose}>
-              Cancelar
-            </button>
+            <button type="button" className="btn-secondary" onClick={onClose}>Cancelar</button>
             <button type="submit" className="btn-primary" disabled={loading}>
               {loading ? "Guardando..." : "Guardar"}
             </button>

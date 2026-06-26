@@ -61,7 +61,7 @@ export default function UserListContainer() {
   async function handleDeleteUser() {
     setDeleteLoading(true);
     try {
-      await api.delete(`/bff/admin/users/${userToDelete.id}`);
+      await api.delete(`/bff/admin/users/${userToDelete?.id}`);
       setUserToDelete(null);
       fetchUsers();
     } catch (err) {
@@ -76,7 +76,7 @@ export default function UserListContainer() {
     setPasswordError(null);
     try {
       await api.put("/bff/admin/users/password", {
-        rut: userToChangePassword.rut,
+        rut: userToChangePassword?.rut,
         newPassword,
       });
       setPasswordSuccess(newPassword);

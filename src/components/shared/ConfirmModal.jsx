@@ -1,6 +1,6 @@
 export default function ConfirmModal({ title, message, onConfirm, onCancel, loading }) {
   return (
-    <div className="modal-overlay" onClick={onCancel}>
+    <div className="modal-overlay" role="button" tabIndex={0} onClick={onCancel} onKeyDown={(e) => e.key === 'Enter' && onCancel()}>
       <div className="modal modal-sm" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2 className="modal-title">{title}</h2>
@@ -10,9 +10,7 @@ export default function ConfirmModal({ title, message, onConfirm, onCancel, load
           <p className="confirm-message">{message}</p>
         </div>
         <div className="modal-footer">
-          <button className="btn-secondary" onClick={onCancel} disabled={loading}>
-            Cancelar
-          </button>
+          <button className="btn-secondary" onClick={onCancel} disabled={loading}>Cancelar</button>
           <button className="btn-danger" onClick={onConfirm} disabled={loading}>
             {loading ? "Eliminando..." : "Eliminar"}
           </button>

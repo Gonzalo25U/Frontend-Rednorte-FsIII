@@ -76,8 +76,14 @@ export default function UserTable({ users, loading, error, onDelete, onChangePas
                     </button>
                     {openMenu === user.id && (
                       <>
-                        <div className="menu-backdrop" onClick={() => setOpenMenu(null)} />
-                        <div className="menu-dropdown">
+                        <div
+                          className="menu-backdrop"
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => setOpenMenu(null)}
+                          onKeyDown={(e) => e.key === 'Enter' && setOpenMenu(null)}
+                        />
+                                                <div className="menu-dropdown">
                           <button
                             className="menu-item"
                             onClick={() => handleAction(onChangePassword, user)}

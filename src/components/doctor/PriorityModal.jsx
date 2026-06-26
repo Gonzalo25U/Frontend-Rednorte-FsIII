@@ -10,7 +10,7 @@ export default function PriorityModal({ appointment, onSubmit, onClose, loading,
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" role="button" tabIndex={0} onClick={onClose} onKeyDown={(e) => e.key === 'Enter' && onClose()}>
       <div className="modal modal-sm" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2 className="modal-title">Cambiar prioridad</h2>

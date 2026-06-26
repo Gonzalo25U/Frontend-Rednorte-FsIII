@@ -61,7 +61,7 @@ export default function DoctorContainer() {
     setPriorityLoading(true);
     setPriorityError(null);
     try {
-      await api.put(`/bff/doctor/appointments/${appointmentForPriority.id}/priority?priority=${priority}`);
+      await api.put(`/bff/doctor/appointments/${appointmentForPriority?.id}/priority?priority=${priority}`);
       setAppointmentForPriority(null);
       fetchAppointments();
     } catch (err) {
@@ -80,7 +80,7 @@ export default function DoctorContainer() {
         formData.append("file", file);
         const token = localStorage.getItem("token");
         const res = await fetch(
-          `http://localhost:8085/bff/doctor/appointments/${appointmentForRecord.id}/upload-image`,
+          `http://localhost:8085/bff/doctor/appointments/${appointmentForRecord?.id}/upload-image`,
           {
             method: "POST",
             headers: { Authorization: `Bearer ${token}` },
@@ -93,7 +93,7 @@ export default function DoctorContainer() {
         }
       }
 
-      await api.put(`/bff/doctor/appointments/${appointmentForRecord.id}/medical-record`, {
+      await api.put(`/bff/doctor/appointments/${appointmentForRecord?.id}/medical-record`, {
         prescription,
         indications,
         restDays,
