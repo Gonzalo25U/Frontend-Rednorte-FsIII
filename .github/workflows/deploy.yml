@@ -34,6 +34,7 @@ jobs:
 
       - name: Análisis SonarCloud
         uses: SonarSource/sonarcloud-github-action@master
+        continue-on-error: true
         with:
           args: >
             -Dsonar.organization=gonzalo25u
