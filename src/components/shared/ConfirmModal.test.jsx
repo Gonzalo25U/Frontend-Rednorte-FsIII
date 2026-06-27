@@ -65,4 +65,10 @@ describe("ConfirmModal", () => {
     fireEvent.click(screen.getByText("Eliminando..."));
     expect(mockConfirm).not.toHaveBeenCalled();
   });
+  it("llama a onCancel al presionar Enter en el overlay", () => {
+  const mockCancel = vi.fn();
+  render(<ConfirmModal title="Eliminar" message="Mensaje" onConfirm={vi.fn()} onCancel={mockCancel} loading={false} />);
+  fireEvent.keyDown(document.querySelector(".modal-overlay"), { key: "Enter" });
+  expect(mockCancel).toHaveBeenCalled();
+  });
 });
