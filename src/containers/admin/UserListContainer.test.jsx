@@ -2,34 +2,34 @@ import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import UserListContainer from "./UserListContainer";
 
-vi.mock("../../utils/api.js", () => ({
-  api: {
-    get: vi.fn(),
-    post: vi.fn(),
-    put: vi.fn(),
-    delete: vi.fn(),
-  },
-}));
+    vi.mock("../../utils/api.js", () => ({
+    api: {
+        get: vi.fn(),
+        post: vi.fn(),
+        put: vi.fn(),
+        delete: vi.fn(),
+    },
+    }));
 
-vi.mock("../../utils/auth.js", () => ({
-  logout: vi.fn(),
-  getToken: vi.fn(() => "mock-token"),
-}));
+    vi.mock("../../utils/auth.js", () => ({
+    logout: vi.fn(),
+    getToken: vi.fn(() => "mock-token"),
+    }));
 
-vi.mock("../../components/shared/NotificationBell.jsx", () => ({
-  default: () => <div>NotificationBell</div>,
-}));
+    vi.mock("../../components/shared/NotificationBell.jsx", () => ({
+    default: () => <div>NotificationBell</div>,
+    }));
 
-vi.mock("../../components/shared/Logo.jsx", () => ({
-  default: () => <div>Logo</div>,
-}));
+    vi.mock("../../components/shared/Logo.jsx", () => ({
+    default: () => <div>Logo</div>,
+    }));
 
-import { api } from "../../utils/api.js";
+    import { api } from "../../utils/api.js";
 
-const mockUsers = [
-  { id: 1, name: "Juan Pérez", rut: "12345678-9", role: "DOCTOR", active: true },
-  { id: 2, name: "Ana García", rut: "98765432-1", role: "PACIENTE", active: false },
-];
+    const mockUsers = [
+    { id: 1, name: "Juan Pérez", rut: "12345678-9", role: "DOCTOR", active: true },
+    { id: 2, name: "Ana García", rut: "98765432-1", role: "PACIENTE", active: false },
+    ];
 
     beforeEach(() => {
     vi.resetAllMocks();
