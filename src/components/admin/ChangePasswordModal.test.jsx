@@ -85,4 +85,31 @@ describe("ChangePasswordModal", () => {
     render(<ChangePasswordModal {...defaultProps} loading={true} />);
     expect(screen.getByText("Guardando...")).toBeInTheDocument();
   });
+  it("llama a onClose en pantalla de éxito al presionar Enter en el overlay", () => {
+  const mockClose = vi.fn();
+  render(<ChangePasswordModal {...defaultProps} onClose={mockClose} success="nueva123" />);
+  fireEvent.keyDown(document.querySelector(".modal-overlay"), { key: "Enter" });
+  expect(mockClose).toHaveBeenCalled();
+});
+
+it("no propaga el click en pantalla de éxito al hacer click dentro del modal", () => {
+  const mockClose = vi.fn();
+  render(<ChangePasswordModal {...defaultProps} onClose={mockClose} success="nueva123" />);
+  fireEvent.click(document.querySelector(".modal"));
+  expect(mockClose).not.toHaveBeenCalled();
+});
+
+it("no llama a onClose al presionar otra tecla en el overlay (estado normal)", () => {
+  const mockClose = vi.fn();
+  render(<ChangePasswordModal {...defaultProps} onClose={mockClose} />);
+  fireEvent.keyDown(document.querySelector(".modal-overlay"), { key: "Tab" });
+  expect(mockClose).not.toHaveBeenCalled();
+});
+
+it("no propaga el click al overlay al hacer click dentro del modal (estado normal)", () => {
+  const mockClose = vi.fn();
+  render(<ChangePasswordModal {...defaultProps} onClose={mockClose} />);
+  fireEvent.click(document.querySelector(".modal"));
+  expect(mockClose).not.toHaveBeenCalled();
+});
 });

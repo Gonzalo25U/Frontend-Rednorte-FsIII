@@ -143,7 +143,7 @@ function AppointmentCard({ appt, onCancel, statusClass, statusLabel, priorityCla
             target="_blank"
             rel="noopener noreferrer"
             className="image-link"
-          a>
+          >
             Ver documento adjunto
           </a>
         </div>
