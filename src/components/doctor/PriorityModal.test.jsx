@@ -82,4 +82,24 @@ describe("PriorityModal", () => {
     fireEvent.click(document.querySelector(".modal-overlay"));
     expect(mockClose).toHaveBeenCalled();
   });
+  it("llama a onClose al presionar Enter en el overlay", () => {
+  const mockClose = vi.fn();
+  render(<PriorityModal appointment={mockAppointment} onSubmit={vi.fn()} onClose={mockClose} loading={false} error={null} />);
+  fireEvent.keyDown(document.querySelector(".modal-overlay"), { key: "Enter" });
+  expect(mockClose).toHaveBeenCalled();
+});
+
+it("no llama a onClose al presionar otra tecla en el overlay", () => {
+  const mockClose = vi.fn();
+  render(<PriorityModal appointment={mockAppointment} onSubmit={vi.fn()} onClose={mockClose} loading={false} error={null} />);
+  fireEvent.keyDown(document.querySelector(".modal-overlay"), { key: "Tab" });
+  expect(mockClose).not.toHaveBeenCalled();
+});
+
+it("no propaga el click al overlay al hacer click dentro del modal", () => {
+  const mockClose = vi.fn();
+  render(<PriorityModal appointment={mockAppointment} onSubmit={vi.fn()} onClose={mockClose} loading={false} error={null} />);
+  fireEvent.click(document.querySelector(".modal"));
+  expect(mockClose).not.toHaveBeenCalled();
+});
 });
